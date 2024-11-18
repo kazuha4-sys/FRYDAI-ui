@@ -1,0 +1,316 @@
+body {
+    min-width: fit-content;
+    margin: 40px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+    color: white;
+  }
+  
+  .light {
+    background-color: white;
+    color: black;
+  }
+  
+  /* HEADER SECTION */
+  header {
+    margin: 0 auto 20px auto;
+  }
+  
+  #title {
+    width: 670px;
+  }
+  
+  #title h1 {
+    margin: 0;
+    font-size: 33.5px;
+    font-weight: bold;
+  }
+  
+  #title h2 {
+    margin: 2px 0 0 0;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  /* CONTENT SECTION */
+  main {
+    margin: 0 auto;
+  }
+  
+  /* BUTTON DEFAULT */
+  button {
+    float: left;
+    width: fit-content;
+    padding: 10px;
+    margin: 2px;
+    font-size: 16px;
+    outline: none;
+    border: 1px solid white;
+    color: white;
+    background-color: black;
+  }
+  
+  .light button {
+    border: 1px solid black;
+    color: black;
+    background-color: white;
+  }
+  
+  /* BUTTON OFF */
+  .disabled-button {
+    background-color: #f38ba8;
+    border: 1px solid #f38ba8;
+    color: black;
+  }
+  
+  .light .disabled-button {
+    background-color: #d20f39;
+    border: 1px solid #d20f39;
+    color: white;
+  }
+  
+  button:hover {
+    background-color: #d20f39;
+    border: 1px solid #d20f39;
+    color: white;
+  }
+  
+  .light button:hover {
+    background-color: #f38ba8;
+    border: 1px solid #f38ba8;
+    color: black;
+  }
+  
+  button:active {
+    background-color: #f38ba8;
+    border: 1px solid #f38ba8;
+    color: black;
+  }
+  
+  .light button:active {
+    background-color: #d20f39;
+    border: 1px solid #d20f39;
+    color: white;
+  }
+  
+  /* BUTTON GITHUB */
+  #github {
+    background-color: #cba6f7;
+    border: 1px solid #cba6f7;
+    color: black;
+  }
+  
+  .light #github {
+    background-color: #8839ef;
+    border: 1px solid #8839ef;
+    color: white;
+  }
+  
+  #github:hover {
+    background-color: #8839ef;
+    border: 1px solid #8839ef;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .light #github:hover {
+    background-color: #cba6f7;
+    border: 1px solid #cba6f7;
+    color: black;
+    text-decoration: none;
+  }
+  
+  #github:active {
+    background-color: #cba6f7;
+    border: 1px solid #cba6f7;
+    color: black;
+  }
+  
+  .light #github:active {
+    background-color: #8839ef;
+    border: 1px solid #8839ef;
+    color: white;
+  }
+  
+  /* BUTTON OTHERS */
+  #timeout {
+    width: 120px;
+  }
+  
+  #sound {
+    width: 105px;
+  }
+  
+  #dark-mode {
+    width: 140px;
+  }
+  
+  /* KEYBOARD ROW */
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  /* NUMPAD ROW */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto-fill repeat(5, 1fr);
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  .grid-item1 {
+    display: inline-flex;
+    grid-area: 1/1/2/5;
+  }
+  
+  .grid-item2 {
+    display: inline-flex;
+    grid-area: 2/1/3/5;
+  }
+  
+  .grid-item3 {
+    display: inline-flex;
+    grid-area: 3/1/4/4;
+  }
+  
+  .grid-item4 {
+    display: inline-flex;
+    grid-area: 4/1/5/4;
+  }
+  
+  .grid-item5 {
+    display: inline-flex;
+    grid-area: 3/4/5/5;
+  }
+  
+  .grid-item6 {
+    display: inline-flex;
+    grid-area: 5/1/6/4;
+  }
+  
+  .grid-item7 {
+    display: inline-flex;
+    grid-area: 6/1/7/4;
+  }
+  
+  .grid-item8 {
+    display: inline-flex;
+    grid-area: 5/4/7/5;
+  }
+  
+  /* KEYCAP DEFAULT */
+  .keycap-style {
+    width: 55px;
+    height: 60px;
+    margin: 2.5px;
+    font-size: 16px;
+    text-align: center;
+    color: black;
+    background-color: white;
+  }
+  
+  .light .keycap-style {
+    color: white;
+    background-color: black;
+  }
+  
+  /* KEYCAP SMALL */
+  .keycap-top {
+    width: 51.3px;
+    height: 40px;
+  }
+  
+  .numpad-top {
+    height: 40px;
+  }
+  
+  /* KEYCAP VARIATION */
+  .keycap-vertical {
+    height: 125px;
+  }
+  
+  .keycap-15u {
+    padding: 0 1.5px;
+    width: 82.5px;
+  }
+  
+  .keycap-175u {
+    padding: 0 2px;
+    width: 96.25px;
+  }
+  
+  .keycap-2u {
+    padding: 0 3px;
+    width: 110px;
+  }
+  
+  .keycap-225u {
+    padding: 0 3.5px;
+    width: 123.75px;
+  }
+  
+  .keycap-275u {
+    padding: 0 4px;
+    width: 151.25px;
+  }
+  
+  .keycap-625u {
+    padding: 0 6px;
+    width: 343.75px;
+  }
+  
+  /* TEXT */
+  .text-top {
+    margin-top: 10px;
+  }
+  
+  .text-double {
+    margin-top: 10px;
+  }
+  
+  /* VIEWPORT < FULL SIZE KEYBOARD */
+  @media (max-width: 1200px) {
+  
+    #title {
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+  }
+  
+  /* VIEWPORT < TKL SIZE KEYBOARD */
+  @media(max-width: 950px) {
+  
+    header {
+      margin: 0;
+    }
+  
+    #navbar {
+      width: 340px;
+    }
+  
+    button,
+    #timeout,
+    #sound,
+    #dark-mode {
+      width: 100%;
+    }
+  
+    #primary-section {
+      width: 100%;
+    }
+  
+    #primary-container {
+      width: 360px;
+      margin: 0 auto;
+    }
+  
+    div.flex-container {
+      margin: 20px 0;
+    }
+  }

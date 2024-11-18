@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastas do Acesso Rápido</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0d0d0d;
+            color: #c0c0c0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            border: 1px solid #333333;
+            color: #c0c0c0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+            color: #c0c0c0;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #c0c0c0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pastas Fixadas no Acesso Rápido</h1>
+        <ul id="foldersList">
+            <li>Carregando...</li>
+        </ul>
+    </div>
+
+    <script>
+        // Função para buscar as pastas e exibir na lista
+        async function loadFolders() {
+            try {
+                const response = await fetch('/folders');
+                const folders = await response.json();
+                const foldersList = document.getElementById('foldersList');
+
+                foldersList.innerHTML = ''; // Limpa a lista atual
+
+                // Adiciona cada pasta na lista
+                folders.forEach(folder => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = folder;
+                    foldersList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar pastas:', error);
+            }
+        }
+
+        // Carrega as pastas ao iniciar a página
+        loadFolders();
+    </script>
+</body>
+</html>

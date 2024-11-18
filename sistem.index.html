@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eDEX-UI Clone</title>
+  <style>
+    /* CSS Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      background-color: #000;
+      color: #0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #main-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: auto;
+      height: 90vh;
+      width: 90vw;
+      border: 2px solid #0f0;
+    }
+
+    #left-panel, #right-panel {
+      border: 1px solid #0f0;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    #terminal {
+      border: 1px solid #0f0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #terminal-output {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    #terminal-input {
+      border: none;
+      background-color: #000;
+      color: #0f0;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #terminal-input:focus {
+      outline: none;
+    }
+
+    .widget {
+      border: 1px solid #0f0;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .widget h3 {
+      margin: 0 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main-container">
+    <div id="left-panel">
+      <div class="widget">
+        <h3>System Monitor</h3>
+        <p>CPU: 27%</p>
+        <p>RAM: 45%</p>
+        <p>Network: 23kb/s</p>
+      </div>
+    </div>
+
+    <div id="terminal">
+      <div id="terminal-output"></div>
+      <input id="terminal-input" type="text" placeholder="Type a command..." autofocus>
+    </div>
+
+    <div id="right-panel">
+      <div class="widget">
+        <h3>File Explorer</h3>
+        <ul>
+          <li>/home/user</li>
+          <li>/var/log</li>
+          <li>/etc</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="widget">
+        <h3>Local Server Output</h3>
+        <iframe src="http://127.0.0.1:5003/" width="100%" height="300px" style="border: none;"></iframe>
+    </div>
+
+  </div>
+  <script>
+    // JavaScript Functionality
+    document.addEventListener("DOMContentLoaded", () => {
+      const terminalOutput = document.getElementById("terminal-output");
+      const terminalInput = document.getElementById("terminal-input");
+
+      terminalInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const command = terminalInput.value;
+          terminalOutput.innerHTML += `<div>> ${command}</div>`;
+          terminalInput.value = "";
+          simulateResponse(command);
+        }
+      });
+
+      function simulateResponse(command) {
+        setTimeout(() => {
+          terminalOutput.innerHTML += `<div>Executing: ${command}</div>`;
+          terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }, 500);
+      }
+    });
+  </script>
+</body>
+</html>

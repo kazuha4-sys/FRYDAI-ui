@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal de Comandos</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #c7c7c7;
+            font-family: monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #terminal {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #input-container {
+            display: flex;
+            border-top: 1px solid #333;
+        }
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            color: #c7c7c7;
+            background: #1e1e1e;
+        }
+        input[type="text"]:focus {
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            background: #333;
+            color: #c7c7c7;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <div id="input-container">
+        <input type="text" id="commandInput" placeholder="Digite um comando ou '--help'" />
+        <button onclick="sendCommand()">Enviar</button>
+    </div>
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('commandInput');
+
+        function appendToTerminal(content, isError = false) {
+            const line = document.createElement('div');
+            line.textContent = content;
+            line.style.color = isError ? '#f00' : '#c7c7c7';
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function sendCommand() {
+            const command = commandInput.value.trim();
+            if (!command) {
+                appendToTerminal("Erro: comando vazio!", true);
+                return;
+            }
+
+            appendToTerminal(`> ${command}`);
+            commandInput.value = '';
+
+            try {
+                const response = await fetch('/execute-command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    appendToTerminal(`Erro: ${data.error}`, true);
+                } else {
+                    appendToTerminal(data.output);
+                }
+            } catch (error) {
+                appendToTerminal(`Erro ao conectar ao servidor: ${error.message}`, true);
+            }
+        }
+
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendCommand();
+            }
+        });
+    </script>
+</body>
+</html>

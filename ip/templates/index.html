@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Tráfego de Rede</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #181818;
+            padding: 20px 30px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+            font-size: 15px;
+        }
+
+        th {
+            color: #d0d0d0;
+            background-color: #202020;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #151515;
+        }
+
+        td {
+            color: #c0c0c0;
+            transition: color 0.2s ease;
+        }
+
+        tr:hover td {
+            color: #fff;
+            background-color: #333;
+        }
+
+        .loading {
+            font-size: 16px;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pacotes de Tráfego de Rede</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>IP de Origem</th>
+                    <th>IP de Destino</th>
+                    <th>Protocolo</th>
+                    <th>Tamanho (bytes)</th>
+                </tr>
+            </thead>
+            <tbody id="trafficData">
+                <tr><td colspan="4" class="loading">Carregando...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchTrafficData() {
+            try {
+                const response = await fetch('/traffic');
+                const data = await response.json();
+
+                const trafficData = document.getElementById('trafficData');
+                trafficData.innerHTML = '';
+
+                if (data.length > 0) {
+                    data.forEach(packet => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${packet.src_ip}</td>
+                            <td>${packet.dst_ip}</td>
+                            <td>${packet.protocol}</td>
+                            <td>${packet.size}</td>
+                        `;
+                        trafficData.appendChild(row);
+                    });
+                } else {
+                    trafficData.innerHTML = '<tr><td colspan="4" class="loading">Nenhum dado encontrado.</td></tr>';
+                }
+            } catch (error) {
+                document.getElementById('trafficData').innerHTML = '<tr><td colspan="4" class="loading">Erro ao obter dados.</td></tr>';
+                console.error('Erro ao buscar dados de tráfego:', error);
+            }
+        }
+
+        // Atualiza os dados de tráfego a cada 3 segundos
+        setInterval(fetchTrafficData, 3000);
+        fetchTrafficData();
+    </script>
+</body>
+</html>

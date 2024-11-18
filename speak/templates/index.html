@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Comandos de Voz</title>
+    <style>
+        /* Reseta os estilos padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Cor de fundo e fonte global */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Estilo para o título */
+h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-align: center;
+}
+
+/* Estilo para o botão */
+button {
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Estilo para o parágrafo de comando */
+p {
+    font-size: 1.5em;
+    color: #ddd;
+    margin-top: 20px;
+}
+
+/* Estilo para a área de comando */
+#command {
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: #bbb;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Comandos de Voz</h1>
+    <button id="start">Iniciar Reconhecimento de Voz</button>
+    <p id="command">Comando: </p>
+
+    <script>
+        const startButton = document.getElementById('start');
+        const commandDisplay = document.getElementById('command');
+
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'pt-BR';
+
+        startButton.addEventListener('click', () => {
+            recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+            const command = event.results[0][0].transcript.toLowerCase();
+            commandDisplay.textContent = `Comando falado: ${command}`;
+
+            fetch(`/comando/${command.replace(/ /g, '-')}`)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensagem || 'Comando não reconhecido');
+                })
+                .catch(error => {
+                    alert('Erro ao executar comando');
+                });
+        };
+    </script>
+</body>
+</html>

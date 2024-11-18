@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frydai UI</title>
+    <style>
+        /* Resetando margens e preenchimentos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Fundo da página */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #000000, #111111, #222222);
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        /* Estilo do container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Retângulo animado */
+        .rectangle {
+            width: 0; /* Começa como uma linha */
+            height: 5px; /* Linha reta */
+            background-color: transparent; /* Inicialmente invisível */
+            border: 3px solid #00ffff; /* Bordas neon */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: expandRectangle 2s forwards ease-out; /* Expansão suave */
+            opacity: 0; /* Inicialmente invisível */
+        }
+
+        /* Retângulo secundário para movimento */
+        .rectangle-move {
+            display: none; /* Não visível até ser ativado */
+            width: 300px;
+            height: 100px;
+            border: 3px solid #00ffff;
+            position: relative;
+            animation: moveLeft 2s forwards ease-in-out;
+        }
+
+        /* Texto central no retângulo */
+        .text {
+            position: absolute;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffff; /* Azul neon */
+            opacity: 0;
+            transform: translateZ(0);
+            transition: opacity 0.5s, transform 2s ease-out;
+        }
+
+        /* Segundo texto */
+        #welcome {
+            color: #ffffff; /* Branco neon */
+        }
+
+        /* Animação do retângulo expandindo */
+        @keyframes expandRectangle {
+            0% {
+                width: 0; /* Começa como linha */
+                height: 5px; /* Apenas a borda horizontal */
+            }
+            50% {
+                width: 900px; /* Expande mais na largura */
+                height: 5px;
+                opacity: 1; /* Visível durante a expansão */
+            }
+            100% {
+                width: 900px; /* Fixa a largura do retângulo */
+                height: 700px; /* A altura do retângulo */
+            }
+        }
+
+        /* Animação do retângulo se movendo para a esquerda */
+        @keyframes moveLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-300px); /* Move para a esquerda */
+            }
+        }
+
+        /* Animação do texto indo para trás */
+        @keyframes fadeBack {
+            0% {
+                opacity: 1;
+                transform: translateZ(0); /* Início */
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateZ(-50px); /* Indo para trás */
+            }
+            100% {
+                opacity: 0;
+                transform: translateZ(-100px); /* Some completamente */
+            }
+        }
+
+        /* Animação do texto aparecendo */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="rectangle">
+            <div class="text" id="frydai">Frydai-UI</div>
+            <div class="text" id="welcome" style="opacity: 0;">Bem-vindo, Kauan</div>
+        </div>
+        <div class="rectangle-move"></div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            const frydaiText = document.getElementById('frydai');
+            const welcomeText = document.getElementById('welcome');
+            const rectangleMove = document.querySelector('.rectangle-move');
+
+            // Ativando o texto "Frydai-UI"
+            frydaiText.style.opacity = '1';
+
+            // Após 2 segundos (duração do "Frydai-UI"), inicia a animação para desaparecer
+            setTimeout(() => {
+                frydaiText.style.animation = 'fadeBack 2s forwards';
+
+                // Após o "Frydai-UI" desaparecer, ativa o "Bem-vindo, Kauan"
+                setTimeout(() => {
+                    welcomeText.style.animation = 'fadeIn 1.5s forwards';
+
+                    // Espera até o "Bem-vindo, Kauan" aparecer para falar
+                    setTimeout(() => {
+                        const utterance = new SpeechSynthesisUtterance("Bem-vindo, Kauan");
+                        utterance.lang = "pt-BR";  // Define o idioma da fala para português
+                        
+                        // Definindo voz feminina (procura por vozes disponíveis no sistema)
+                        let voices = speechSynthesis.getVoices();
+                        let femaleVoice = voices.find(voice => voice.name.toLowerCase().includes('female'));
+                        if (femaleVoice) {
+                            utterance.voice = femaleVoice;
+                        } else {
+                            // Caso não encontre uma voz feminina, usa a padrão
+                            utterance.voice = voices[0];
+                        }
+
+                        speechSynthesis.speak(utterance); // Reproduz a fala
+
+                        // Ativa o retângulo animado
+                        setTimeout(() => {
+                            rectangleMove.style.display = 'block';
+                            rectangleMove.style.animation = 'moveLeft 2s forwards';
+                        }, 2000); // Tempo para ativar o retângulo em movimento
+                    }, 1500); // Tempo para o "Bem-vindo, Kauan" aparecer completamente
+                }, 2000); // Tempo correspondente ao fadeBack do Frydai-UI
+            }, 2000); // Tempo inicial para manter o Frydai-UI visível
+        };
+    </script>
+</body>
+</html>
